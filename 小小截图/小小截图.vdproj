@@ -291,6 +291,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_68515F8E8F914B138E1F62381C365936"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6D17C9188A9B2357FC3C1B9493036AF4"
         "OwnerKey" = "8:_444204C1A50B45BB824C74C926C670D5"
         "MsmSig" = "8:_UNDEFINED"
@@ -761,12 +767,6 @@
         {
         "MsmKey" = "8:_E88E2F847324ED6CC646CFA63C67899E"
         "OwnerKey" = "8:_CF0E3B036AE8D087FA57A563EECD3440"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E99E83CCA4B24C9A826B778C9D32E227"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1538,6 +1538,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -2858,6 +2866,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_68515F8E8F914B138E1F62381C365936"
+            {
+            "SourcePath" = "8:..\\小小截图OCR\\config.ini"
+            "TargetName" = "8:config.ini"
+            "Tag" = "8:"
+            "Folder" = "8:_6ECEC3753A0F4F8E9F738874C740C831"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6D17C9188A9B2357FC3C1B9493036AF4"
@@ -4833,26 +4861,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E99E83CCA4B24C9A826B778C9D32E227"
-            {
-            "SourcePath" = "8:..\\小小截图OCR\\config.ini"
-            "TargetName" = "8:config.ini"
-            "Tag" = "8:"
-            "Folder" = "8:_6ECEC3753A0F4F8E9F738874C740C831"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E9F3FFEE41B7AD8451BDCE1EDEB6B80A"
             {
             "AssemblyRegister" = "3:1"
@@ -5220,7 +5228,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:小小截图"
         "ProductCode" = "8:{5BFE451D-F018-455A-86C2-8A3E25C8A78E}"
-        "PackageCode" = "8:{783B0CB5-A1B8-4C8E-B452-35F830BA102D}"
+        "PackageCode" = "8:{1DF63BEC-19DF-4DA2-8C08-A6B354519FC4}"
         "UpgradeCode" = "8:{3F580992-D8BE-432E-931A-C7C94F814529}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
