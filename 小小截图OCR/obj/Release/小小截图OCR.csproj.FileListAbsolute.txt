@@ -20,7 +20,6 @@ C:\Users\lei\source\repos\Screenshots\小小截图OCR\bin\Release\System.Text.En
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\bin\Release\TencentCloud.dll
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\bin\Release\Newtonsoft.Json.xml
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\bin\Release\System.Text.Encodings.Web.xml
-C:\Users\lei\source\repos\Screenshots\小小截图OCR\obj\Release\小小截图OCR.csproj.AssemblyReference.cache
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\obj\Release\小小截图OCR.exe.config
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\obj\Release\Interop.IWshRuntimeLibrary.dll
 C:\Users\lei\source\repos\Screenshots\小小截图OCR\obj\Release\小小截图OCR.csproj.ResolveComReference.cache
