@@ -44,7 +44,7 @@
 
 2. 安装完成后，进入你的安装目录(默认为：C:\Program Files (x86)\Default Company Name\小小截图\)，将config.ini文件内的密钥改为你自己的（须在[腾讯云创建密钥并开通OCR服务](https://cloud.tencent.com/document/product/866/34681#null)，每月1000免费额度）；
 
-   ![](./imgs/3.jpg)
+   ![](./imgs/3.png)
 
    <font color="red">**注意等号两侧各有一个空格分隔；**</font>
 
