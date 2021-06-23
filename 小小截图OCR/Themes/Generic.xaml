@@ -1,0 +1,182 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:小小截图OCR">
+
+	<local:Lisp x:Key="RoundLisp">(add $0 .5)</local:Lisp>
+	<local:Lisp x:Key="CenterPositionLisp">(div (sub $0 $1) 2)</local:Lisp>
+	<local:Lisp x:Key="SubSize">(max (sub $0 1) 0)</local:Lisp>
+	<Binding x:Key="BorderR" Path="Width" ElementName="SelectorBorder" Converter="{StaticResource RoundLisp}" />
+	<Binding x:Key="BorderB" Path="Height" ElementName="SelectorBorder" Converter="{StaticResource RoundLisp}" />
+	<MultiBinding x:Key="BorderWidthCenter" Converter="{StaticResource CenterPositionLisp}">
+		<Binding Path="Width" ElementName="SelectorBorder" />
+		<Binding Path="Width" RelativeSource="{RelativeSource Self}"/>
+	</MultiBinding>
+	<MultiBinding x:Key="BorderHeightCenter" Converter="{StaticResource CenterPositionLisp}">
+		<Binding Path="Height" ElementName="SelectorBorder" />
+		<Binding Path="Height" RelativeSource="{RelativeSource Self}"/>
+	</MultiBinding>
+
+	<Style TargetType="{x:Type local:ImageEditor}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:ImageEditor}">
+					<Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+						<Canvas x:Name="PART_BackCanvas">
+							<Canvas.Style>
+								<Style TargetType="{x:Type Canvas}">
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding SelectorEnabled, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+											<Setter Property="Visibility" Value="Hidden" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Canvas.Style>
+
+							<TextBlock x:Name="sizeTip" Height="20" Padding="8 2" Canvas.Left="{Binding (Canvas.Left), ElementName=SelectorBorder}" Foreground="White" Background="#C0000000">
+								<Canvas.Top>
+									<MultiBinding Converter="{local:Lisp (if (ge $0 $1) (sub $0 $1) (add $0 1))}">
+										<Binding Path="(Canvas.Top)" ElementName="SelectorBorder" />
+										<Binding Path="ActualHeight" ElementName="sizeTip" />
+									</MultiBinding>
+								</Canvas.Top>
+								<TextBlock.Text>
+									<MultiBinding Converter="{local:Lisp (concat (add $0 1) $ (add $1 1))}" ConverterParameter=" × ">
+										<Binding Path="SelectWidth" RelativeSource="{RelativeSource TemplatedParent}"/>
+										<Binding Path="SelectHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+									</MultiBinding>
+								</TextBlock.Text>
+								<TextBlock.Style>
+									<Style TargetType="{x:Type TextBlock}">
+										<Style.Triggers>
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding SelectorCanMove, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+													<Condition Value="False">
+														<Condition.Binding>
+															<MultiBinding Converter="{local:Lisp (ge $0 $1)}">
+																<Binding Path="(Canvas.Top)" ElementName="SelectorBorder" />
+																<Binding Path="ActualHeight" ElementName="sizeTip" />
+															</MultiBinding>
+														</Condition.Binding>
+													</Condition>
+												</MultiDataTrigger.Conditions>
+												<Setter Property="Visibility" Value="Hidden"/>
+											</MultiDataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
+
+							<Canvas x:Name="SelectorBorder"
+									DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+									Canvas.Left="{Binding SelectX}" 
+									Canvas.Top="{Binding SelectY}"
+									Width="{TemplateBinding SelectWidth}"
+									Height="{TemplateBinding SelectHeight}"
+									Background="Transparent" SnapsToDevicePixels="True">
+								<Canvas.Resources>
+									<sys:Double x:Key="Zero">.5</sys:Double>
+									<sys:Double x:Key="RectSize">5</sys:Double>
+
+									<Style TargetType="{x:Type Line}">
+										<Setter Property="Stroke" Value="{Binding SelectorBorderBrush}" />
+										<Setter Property="StrokeThickness" Value="1"/>
+									</Style>
+
+									<Style TargetType="{x:Type Rectangle}">
+										<Setter Property="Width" Value="{StaticResource RectSize}" />
+										<Setter Property="Height" Value="{StaticResource RectSize}" />
+										<Setter Property="Fill" Value="{Binding SelectorBorderBrush}"/>
+									</Style>
+								</Canvas.Resources>
+								<Canvas.Style>
+									<Style TargetType="{x:Type Canvas}">
+										<Style.Triggers>
+											<MultiDataTrigger>
+												<MultiDataTrigger.Conditions>
+													<Condition Binding="{Binding SelectorCanMove}" Value="True"/>
+													<Condition Value="True">
+														<Condition.Binding>
+															<Binding Path="SelectState" Converter="{local:Lisp (in $0 $)}">
+																<Binding.ConverterParameter>
+																	<x:Array Type="{x:Type local:SelectState}">
+																		<local:SelectState>Selected</local:SelectState>
+																		<local:SelectState>Move</local:SelectState>
+																	</x:Array>
+																</Binding.ConverterParameter>
+															</Binding>
+														</Condition.Binding>
+													</Condition>
+												</MultiDataTrigger.Conditions>
+												<Setter Property="Cursor" Value="SizeAll" />
+											</MultiDataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Canvas.Style>
+
+								<Canvas>
+									<Canvas.Style>
+										<Style TargetType="{x:Type Canvas}">
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding FreedomSelectorVisible}" Value="False">
+													<Setter Property="Visibility" Value="Hidden" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</Canvas.Style>
+									<Line x:Name="lineT" X1="{StaticResource Zero}" Y1="{StaticResource Zero}" X2="{StaticResource BorderR}" Y2="{StaticResource Zero}" Cursor="SizeNS" />
+									<Line x:Name="lineB" X1="{StaticResource Zero}" Y1="{StaticResource BorderB}" X2="{StaticResource BorderR}" Y2="{StaticResource BorderB}" Cursor="SizeNS" />
+									<Line x:Name="lineL" X1="{StaticResource Zero}" Y1="{StaticResource Zero}" X2="{StaticResource Zero}" Y2="{StaticResource BorderB}" Cursor="SizeWE" />
+									<Line x:Name="lineR" X1="{StaticResource BorderR}" Y1="{StaticResource Zero}" X2="{StaticResource BorderR}"  Y2="{StaticResource BorderB}" Cursor="SizeWE" />
+
+									<Rectangle x:Name="rectT" Margin="0 -2 0 0" Canvas.Left="{StaticResource BorderWidthCenter}" Canvas.Top="0" Cursor="SizeNS"/>
+									<Rectangle x:Name="rectL" Margin="-2 0 0 0" Canvas.Left="0" Canvas.Top="{StaticResource BorderHeightCenter}" Cursor="SizeWE"/>
+									<Rectangle x:Name="rectB" Margin="0 -2 0 0" Canvas.Left="{StaticResource BorderWidthCenter}" Canvas.Top="{Binding Height,  ElementName=SelectorBorder}" Cursor="SizeNS"/>
+									<Rectangle x:Name="rectR" Margin="-2 0 0 0" Canvas.Left="{Binding Width, ElementName=SelectorBorder}" Canvas.Top="{StaticResource BorderHeightCenter}" Cursor="SizeWE"/>
+
+									<Rectangle x:Name="rectLT" Margin="-2 -2 0 0" Canvas.Left="0" Canvas.Top="0" Cursor="SizeNWSE"/>
+									<Rectangle x:Name="rectRT" Margin="-2 -2 0 0" Canvas.Left="{Binding Width, ElementName=SelectorBorder}" Canvas.Top="0" Cursor="SizeNESW"/>
+									<Rectangle x:Name="rectLB" Margin="-2 -2 0 0" Canvas.Left="0" Canvas.Top="{Binding Height,  ElementName=SelectorBorder}" Cursor="SizeNESW"/>
+									<Rectangle x:Name="rectRB" Margin="-2 -2 0 0" Canvas.Left="{Binding Width, ElementName=SelectorBorder}" Canvas.Top="{Binding Height, ElementName=SelectorBorder}" Cursor="SizeNWSE"/>
+								</Canvas>
+
+								<Rectangle x:Name="rectFixed" Canvas.Left="0" Canvas.Top="0" Width="{Binding SelectWidth}" Height="{Binding SelectHeight}">
+									<Rectangle.Style>
+										<Style TargetType="{x:Type Rectangle}">
+											<Setter Property="StrokeThickness" Value="1" />
+											<Setter Property="Stroke" Value="{Binding SelectorBorderBrush}" />
+											<Setter Property="Visibility" Value="Hidden" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding FixedSelectorVisible}" Value="True">
+													<Setter Property="Visibility" Value="Visible" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</Rectangle.Style>
+								</Rectangle>
+							</Canvas>
+						</Canvas>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="{x:Type local:PixelObserver}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:PixelObserver}">
+					<Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+						<ContentPresenter RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified" SnapsToDevicePixels="True" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

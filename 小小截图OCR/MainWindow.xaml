@@ -1,0 +1,60 @@
+﻿<Window x:Class="小小截图OCR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:小小截图OCR"
+        mc:Ignorable="d"
+        Title="MainWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" Height="350" Width="525" ShowInTaskbar="False" WindowStyle="None" WindowState="Maximized" Topmost="True" ResizeMode="CanMinimize" Loaded="Window_Loaded" Visibility="Visible">
+	<Window.Resources>
+		
+	</Window.Resources>
+
+	<Window.InputBindings>
+		<KeyBinding Key="Esc" Command="{Binding HideCommand}" CommandParameter="{Binding}"/>
+	</Window.InputBindings>
+
+	<Grid x:Name="grid" PreviewMouseMove="Grid_PreviewMouseMove">
+		<local:ImageEditor x:Name="editor" SelectorBorderBrush="Pink" MouseMove="editor_MouseMove" Click="editor_Click" AcceptSelect="editor_AcceptSelect" Close="editor_Close" CancelSelect="editor_CancelSelect">
+		</local:ImageEditor>
+
+		<local:Tip PlacementTarget="{Binding ElementName=grid}">
+			<local:Tip.Style>
+				<Style TargetType="{x:Type local:Tip}">
+					<Setter Property="Visibility" Value="Hidden"/>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding SelectState, ElementName=editor}" Value="Fixed">
+							<Setter Property="Visibility" Value="Visible"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding SelectState, ElementName=editor}" Value="Resize">
+							<Setter Property="Visibility" Value="Visible"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</local:Tip.Style>
+			<StackPanel Orientation="Vertical">
+				<local:PixelObserver x:Name="pixelObserver" BitmapSource="{Binding BackgroundBitmap}" Width="155" Height="105" BorderBrush="White" BorderThickness="2"></local:PixelObserver>
+				<TextBlock x:Name="tipSize" Background="#C0000000" Foreground="White" Padding="5 5 0 0">
+					<TextBlock.Text>
+						<MultiBinding Converter="{local:Lisp (concat (add $0 1) $ (add $1 1))}" ConverterParameter=" × ">
+							<Binding Path="SelectWidth"/>
+							<Binding Path="SelectHeight"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+				<TextBlock x:Name="tipRGB" Background="#C0000000" Foreground="White" Padding="5 0 0 0">
+					<TextBlock.Text>
+						<MultiBinding>
+							<MultiBinding.Converter>
+								<local:Lisp Expression="(format 'RGB:({0},{1},{2})' $1 $2 $3)"></local:Lisp>
+							</MultiBinding.Converter>
+							<Binding Path="SelectColor.R"/>
+							<Binding Path="SelectColor.G"/>
+							<Binding Path="SelectColor.B"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+			</StackPanel>
+		</local:Tip>
+	</Grid>
+</Window>
